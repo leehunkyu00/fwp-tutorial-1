@@ -27,7 +27,14 @@ namespace ArduinoIDE
 
         private void BtnHello_Click(object sender, RoutedEventArgs e)
         {
-            tbHi.Text = btnHello.Content.ToString() + " World";
+            int randomNum = test();
+            tbHi.Text = btnHello.Content.ToString() + " World " + randomNum;
+        }
+
+        private int test()
+        {
+            Random random = new Random();
+            return random.Next(1, 100);
         }
     }
 }
