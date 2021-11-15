@@ -24,5 +24,10 @@ namespace ArduinoIDE
         {
             InitializeComponent();
         }
+
+        private void BtnHello_Click(object sender, RoutedEventArgs e)
+        {
+            tbHi.Text = btnHello.Content.ToString() + " World";
+        }
     }
 }

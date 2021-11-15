@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbHi" Grid.Row="0" Text="" FontSize="30" />
+        <Button x:Name="btnHello" Grid.Row="1" Content="Hello" FontSize="30" Click="BtnHello_Click"/>
     </Grid>
 </Window>
