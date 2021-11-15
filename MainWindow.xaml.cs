@@ -36,5 +36,12 @@ namespace ArduinoIDE
             Random random = new Random();
             return random.Next(1, 100);
         }
+
+        private void Btn_Show_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 window1 = new Window1("hklee");
+            window1.Show();
+
+        }
     }
 }
