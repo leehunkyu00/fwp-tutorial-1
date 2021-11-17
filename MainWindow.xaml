@@ -8,15 +8,34 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
             <RowDefinition Height="0.3*" />
             <RowDefinition Height="0.3*" />
             <RowDefinition Height="0.3*" />
         </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*" />
-                <ColumnDefinition Width="0.5*" />
-            </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
         <Grid Grid.Row="0">
+            <Menu Height="25" Margin="0,0,0,20">
+                <MenuItem Header="File">
+                    <MenuItem Header="New"/>
+                    <MenuItem Header="Open"/>
+                    <Separator />
+                    <MenuItem Header="Add"/>
+                    <MenuItem Header="Close"/>
+                    <Separator />
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save as"/>
+                    <Separator />
+                    <MenuItem Header="Exit" Click="MenuItem_Exit_Click"/>
+                </MenuItem>
+                <MenuItem Header="Allips" />
+                <MenuItem Header="WPF" />
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*" />
                 <RowDefinition Height="0.3*" />
@@ -40,8 +59,9 @@
             <Rectangle Fill="Silver" Grid.Row="2" Grid.Column="2" />
         </Grid>
 
-        <TextBlock x:Name="tbHi" Grid.Row="1" Text="" FontSize="30" />
-        <Button x:Name="btnHello" Grid.Row="2" Content="Hello" FontSize="30" Click="BtnHello_Click"/>
-        <Button x:Name="Btn_Show" Grid.Row="0" Grid.Column="1" Content="Show Window1" FontSize="30" Click="Btn_Show_Click"/>
+        <TextBlock x:Name="tbHi" Grid.Row="2" Text="" FontSize="30" />
+        <Button x:Name="btnHello" Grid.Row="3" Content="Hello" FontSize="30" Click="BtnHello_Click"/>
+        <Button x:Name="Btn_Show" Grid.Row="1" Grid.Column="1" Content="Show Window1" FontSize="30" Click="Btn_Show_Click"/>
+        <Button x:Name="Btn_Show_Paint" Grid.Row="2" Grid.Column="1" Content="Show Paint" FontSize="30" Click="Btn_Show_Paint_Click"/>
     </Grid>
 </Window>

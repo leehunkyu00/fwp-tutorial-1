@@ -43,5 +43,16 @@ namespace ArduinoIDE
             window1.Show();
 
         }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Btn_Show_Paint_Click(object sender, RoutedEventArgs e)
+        {
+            InkCanvas window1 = new InkCanvas();
+            window1.Show();
+        }
     }
 }
