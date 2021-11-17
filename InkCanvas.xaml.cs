@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,8 @@ namespace ArduinoIDE
     public partial class InkCanvas : Window
     {
         public bool mClicked = false;
+        public bool mRightClicked = false;
+
         public SolidColorBrush mycolor = Brushes.Red;
         public Point prePosition;
         public Rectangle temprectangle;
@@ -31,6 +35,10 @@ namespace ArduinoIDE
         public bool rectangleClicked = false;
         public bool circleClicked = false;
 
+
+        public Image myImage;
+        public bool imageMoved = true;
+        public Image findImage;
 
         public InkCanvas()
         {
@@ -144,6 +152,15 @@ namespace ArduinoIDE
                     }
                 }
             }
+            else if (imageMoved)
+             {
+                if (findImage != null)
+                {
+                    double imageleft = nowPosition.X - findImage.ActualWidth / 2;
+                    double imagetop = nowPosition.Y - findImage.ActualHeight / 2;
+                    findImage.Margin = new Thickness(imageleft, imagetop, 0, 0);
+                }
+            }
         }
 
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -155,11 +172,36 @@ namespace ArduinoIDE
 
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            mRightClicked = true;
+
+            var nowPosition = e.GetPosition(canvas);
+
+            int count = canvas.Children.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Image im = canvas.Children[i] as Image;
+                if (im != null)
+                {
+                    if (im.Margin.Left < nowPosition.X && im.Margin.Left + im.ActualWidth > nowPosition.X)
+                    {
+                        if (im.Margin.Top < nowPosition.Y && im.Margin.Top + im.ActualHeight > nowPosition.Y)
+                        {
+                            imageMoved = true;
+                            findImage = im;
+                        }
+                    }
+                }
+            }
+
 
         }
 
         private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
+            mRightClicked = false;
+
+            imageMoved = false;
+            findImage = null;
 
         }
 
@@ -203,7 +245,25 @@ namespace ArduinoIDE
 
         private void Button_fileopen_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openDialog = new OpenFileDialog();
 
+            if (openDialog.ShowDialog() == true)
+            {
+                if (File.Exists(openDialog.FileName))
+                {
+                    Stream imageStreamSource = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    BitmapSource bitmapSource = decoder.Frames[0];
+
+                    myImage = new Image();
+                    myImage.Source = bitmapSource;
+                    myImage.Width = 200;
+
+                    myImage.Tag = System.IO.Path.GetFullPath(openDialog.FileName);
+                    canvas.Children.Add(myImage);
+
+                }
+            }
         }
 
         private void Button_jsonsave_Click(object sender, RoutedEventArgs e)
