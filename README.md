@@ -15,8 +15,8 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=rintiantta&l
 ## 그림판 그리기
 ### InkCanvas로 그림 그리기
 
-### 이건 실행이 안된다.
-https://icodebroker.tistory.com/10423
-
 ### WPF대상인거
 https://icechou.tistory.com/158
+
+### json dll url
+https://sourceforge.net/projects/csjson/

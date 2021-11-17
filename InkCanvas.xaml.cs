@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -268,7 +269,67 @@ namespace ArduinoIDE
 
         private void Button_jsonsave_Click(object sender, RoutedEventArgs e)
         {
+            JsonObjectCollection root = new JsonObjectCollection();
+            JsonArrayCollection arr = new JsonArrayCollection("Images");
 
+            int count = canvas.Children.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Image im = canvas.Children[i] as Image;
+                JsonObjectCollection imageee;
+                if (im != null)
+                {
+                    string fName = im.Tag.ToString();
+
+                    imageee = new JsonObjectCollection();
+                    imageee.Add(new JsonStringValue("FileName", fName));
+                    imageee.Add(new JsonNumericValue("X", im.Margin.Left));
+                    imageee.Add(new JsonNumericValue("Y", im.Margin.Top));
+                    arr.Add(imageee);
+                }
+            }
+
+            root.Add(arr);
+            String s = root.ToString();
+            File.WriteAllText("ImageData.json", s);
+        }
+
+        private void Button_jsonload_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                String s = System.IO.File.ReadAllText("ImageData.json");
+                JsonTextParser textParser = new JsonTextParser();
+                JsonObjectCollection root = textParser.Parse(s) as JsonObjectCollection;
+                JsonArrayCollection arr = root["Images"] as JsonArrayCollection;
+
+                foreach (JsonObjectCollection obj in arr)
+                {
+                    string filename = (obj["FileName"] as JsonStringValue).Value;
+                    double x = (obj["X"] as JsonNumericValue).Value;
+                    double y = (obj["Y"] as JsonNumericValue).Value;
+
+                    if (File.Exists(filename))
+                    {
+                        Stream imageStreamSource = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                        BitmapSource bitmapSource = decoder.Frames[0];
+
+                        myImage = new Image();
+                        myImage.Source = bitmapSource;
+                        myImage.Width = 200;
+
+                        myImage.Tag = System.IO.Path.GetFullPath(filename);
+                        myImage.Margin = new Thickness(x, y, 0, 0);
+
+                        canvas.Children.Add(myImage);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Button_paint_Click(object sender, RoutedEventArgs e)
@@ -295,11 +356,6 @@ namespace ArduinoIDE
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             erasesize = (comboBox.SelectedIndex + 1) * 10;
-        }
-
-        private void Button_jsonload_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void Color_green_Click(object sender, RoutedEventArgs e)
