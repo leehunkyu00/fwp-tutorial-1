@@ -63,5 +63,6 @@
         <Button x:Name="btnHello" Grid.Row="3" Content="Hello" FontSize="30" Click="BtnHello_Click"/>
         <Button x:Name="Btn_Show" Grid.Row="1" Grid.Column="1" Content="Show Window1" FontSize="30" Click="Btn_Show_Click"/>
         <Button x:Name="Btn_Show_Paint" Grid.Row="2" Grid.Column="1" Content="Show Paint" FontSize="30" Click="Btn_Show_Paint_Click"/>
+        <Button x:Name="Btn_Show_Webview2" Grid.Row="3" Grid.Column="1" Content="Show Webview2" FontSize="30" Click="Btn_Show_Webview2_Click"/>
     </Grid>
 </Window>

@@ -54,5 +54,11 @@ namespace ArduinoIDE
             InkCanvas window1 = new InkCanvas();
             window1.Show();
         }
+
+        private void Btn_Show_Webview2_Click(object sender, RoutedEventArgs e)
+        {
+            WindowWebview2 window = new WindowWebview2();
+            window.Show();
+        }
     }
 }

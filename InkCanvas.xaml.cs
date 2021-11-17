@@ -262,7 +262,6 @@ namespace ArduinoIDE
 
                     myImage.Tag = System.IO.Path.GetFullPath(openDialog.FileName);
                     canvas.Children.Add(myImage);
-
                 }
             }
         }
